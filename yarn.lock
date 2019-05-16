@@ -1541,6 +1541,11 @@ acorn@^6.0.1, acorn@^6.0.4, acorn@^6.0.5, acorn@^6.0.7:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.1.1.tgz#7d25ae05bb8ad1f9b699108e1094ecd7884adc1f"
   integrity sha512-jPTiwtOxaHNaAPg/dmrJ/beuzLRnXtB0kQPQ8JpotKJgTB6rX6c8mlf315941pyjBSaPg8NHXS9fhP4u17DpGA==
 
+action-cable-react-jwt@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/action-cable-react-jwt/-/action-cable-react-jwt-0.0.5.tgz#41666e478818919eee55fa0441b57c31df76d68f"
+  integrity sha1-QWZuR4gYkZ7uVfoEQbV8Md921o8=
+
 actioncable@^5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.3.tgz#639d98855b854b7bfe2059ab97d6e0ae8fd60a1d"

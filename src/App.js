@@ -15,21 +15,30 @@ export default class App extends Component {
       user_name: undefined,
       user_id: undefined,
       user_devices: undefined,
-      logged_in: false
-    }
-  }
-
-  handleReceiveNewData = ({data}) => {
-    if (data.commands !== this.state.commands) {
-      this.setState({data})
+      logged_in: false,
+      commands: ["state"]
     }
   }
 
   componentDidMount(){
     const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
     this.sub = cable.subscriptions.create('DevicesChannel', {
-      recieved: this.handleReceiveNewData
+      received: this.handleReceiveNewData
     })
+  }
+
+  handleReceiveNewData = (data) => {
+    console.log(data)
+    if (data.commands !== this.state.commands) {
+      this.setState({
+        commands: data.commands
+      })
+    }
+  }
+
+  actionTest= (e) => {
+    e.preventDefault()
+    this.sub.send( {commands: ["works"], id: 1} )
   }
 
   getToken(){
@@ -117,7 +126,7 @@ export default class App extends Component {
   render(){
     return (
       <Router>
-
+                                                            {/*change back to handleLogin*/}
         <Route exact path='/' component={() => <Login handleLogin={this.handleLogin}
                                                       logged_in={this.state.logged_in} />}/>
 
@@ -125,7 +134,7 @@ export default class App extends Component {
                                                                             logged_in={this.state.logged_in}/>}/>
         <Route exact path='/homepage' component={() => <Homepage logged_in={this.state.logged_in}
                                                                  user_name={this.state.user_name}
-                                                                 logout={this.logout}
+                                                                 logout={this.actionTest}
                                                                  devices={this.state.user_devices}/>}/>
 
       </Router>
