@@ -13,6 +13,7 @@ export default class App extends Component {
     this.state ={
       user_name: undefined,
       user_id: undefined,
+      user_devices: undefined,
       logged_in: false
     }
   }
@@ -72,6 +73,7 @@ export default class App extends Component {
     })
   .then(r => r.json())
   .then( data => {
+    console.log(data.user)
         if(data.message){
           alert(data.message)
         } else {
@@ -79,11 +81,23 @@ export default class App extends Component {
           this.setState({
             user_id: data.user.id,
             user_name: data.user.username,
-            logged_in: true
+            logged_in: true,
+            user_devices: data.user.devices
+
           })
           // this.getProfile()
         }
       })
+  }
+
+  logout = () => {
+    this.setState({
+      user_id: undefined,
+      user_name: undefined,
+      logged_in: false,
+      user_devices: undefined
+    })
+    localStorage.removeItem('jwt')
   }
 
   render(){
@@ -95,8 +109,10 @@ export default class App extends Component {
 
         <Route exact path ='/createaccount' component={() => <Createaccount createAccount={this.createAccount}
                                                                             logged_in={this.state.logged_in}/>}/>
-
-                                                                          <Route exact path='/homepage' component={() => <Homepage user_name={this.state.user_name}/>}/>
+        <Route exact path='/homepage' component={() => <Homepage logged_in={this.state.logged_in}
+                                                                 user_name={this.state.user_name}
+                                                                 logout={this.logout}
+                                                                 devices={this.state.user_devices}/>}/>
 
       </Router>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
 
 export default class Login extends Component {
   constructor(){
@@ -28,7 +29,7 @@ export default class Login extends Component {
       return <Redirect to='/createaccount' />
     }
     return (
-    <div>
+    <Container textAlign='center'>
       <h2> Home Control Login</h2>
       <h4> Log in your account</h4>
       <h6> or </h6>
@@ -39,6 +40,6 @@ export default class Login extends Component {
       <input className="btn btn-success btn-lg btn3d" type="submit" value="submit" onClick={(e) => {this.props.handleLogin(e,this.state.name, this.state.pw)}}/> <br/>
       <button  className="btn btn-success btn-lg btn3d" onClick={this.onClickRedirect}> create account </button>
       </form>
-    </div>)
+    </Container>)
   }
 }
