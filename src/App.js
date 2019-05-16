@@ -4,6 +4,7 @@ import Login from './components/login'
 import Homepage from './components/homepage'
 import Createaccount from './components/createaccount'
 import './App.css';
+import ActionCable from 'actioncable'
 
 const URL = 'http://localhost:3000/'
 
@@ -16,6 +17,19 @@ export default class App extends Component {
       user_devices: undefined,
       logged_in: false
     }
+  }
+
+  handleReceiveNewData = ({data}) => {
+    if (data.commands !== this.state.commands) {
+      this.setState({data})
+    }
+  }
+
+  componentDidMount(){
+    const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
+    this.sub = cable.subscriptions.create('DevicesChannel', {
+      recieved: this.handleReceiveNewData
+    })
   }
 
   getToken(){
