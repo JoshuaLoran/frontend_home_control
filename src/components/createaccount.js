@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import House from '../images/house3.jpg'
 
 export default class Createaccount extends Component {
   constructor(props){
@@ -22,11 +24,35 @@ export default class Createaccount extends Component {
       return <Redirect to='/homepage'/>
     }
     return (
-      <div>
-      <h2> Create New Account </h2>
-      <input type="text" placeholder="username"  name="name" onChange={this.handleChange}/> <br/>
-      <input className="pwfield" type="password" placeholder="password" name="pw"  onChange={this.handleChange} required/> <br/>
-      <input className="btn btn-success btn-lg btn3d" type="submit" value="create account" onClick={(e) => {this.props.createAccount(e,this.state.name, this.state.pw)}} /> <br/>
+      <div className='login-form'>
+        {/*
+          Heads up! The styles below are necessary for the correct render of this example.
+          You can do same with CSS, the main idea is that all the elements up to the `Grid`
+          below must have a height of 100%.
+        */}
+        <style>{`
+          body > div,
+          body > div > div,
+          body > div > div > div.login-form {
+            height: 100%;
+          }
+        `}
+        </style>
+        <Image centered size='medium' src={House} />
+        <Grid  textAlign='center' style={{ height: '100%' }}>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Form size='large' textAlign='center'>
+              <Segment stacked>
+                <Header as='h2' color='blue' textAlign='center'>
+                   Create an account
+                </Header><br /><br />
+                <input type="text" placeholder="username"  name="name" onChange={this.handleChange}/> <br/>
+                <input className="pwfield" type="password" placeholder="password" name="pw"  onChange={this.handleChange} required/> <br/><br/>
+                <Button color='blue' type="submit" value="create account" onClick={(e) => {this.props.createAccount(e,this.state.name, this.state.pw)}}>Create Account</Button> <br/>
+              </Segment>
+            </Form>
+          </Grid.Column>
+        </Grid>
       </div>
     )
   }

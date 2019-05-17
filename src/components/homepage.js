@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import Banner from '../images/home_control_banner.jpg'
 import { Container, Divider } from 'semantic-ui-react'
 import Device from './device'
+import { Button, Card, Image } from 'semantic-ui-react'
 
 export default class Homepage extends Component {
 
@@ -15,12 +15,15 @@ export default class Homepage extends Component {
     }
   }
 
-  displayButton(){
-    console.log(this.props.logged_in)
-    if (this.props.logged_in){
-      return
+  nullCheck(){
+    let components;
+    if (this.props.devices){
+      components = this.props.devices.map((device, idx) => {
+        return <Device clickCommand={this.props.clickCommand} key={idx} device={device} />
+      })
+      return components
     } else {
-      return <button onClick={this.redirect}>Back to Login</button>
+      return <h1>You have no devices.</h1>
     }
   }
 
@@ -31,16 +34,11 @@ export default class Homepage extends Component {
     }
 
     return (
-      <div>
-        <img src={Banner} alt='banner here' />
-        <Container textAlign='left'>
+        <Container textAlign='center' centered>
           <h2> Welcome, {this.name()}!</h2>
+          <Card.Group centered>{this.nullCheck()}</Card.Group>
           <button onClick={this.props.logout}>Log Out</button>
-          {this.props.devices.map((device, idx) => {
-            return <Device key={idx} device={device} />
-          })}
         </Container>
-      </div>
     )
   }
 }

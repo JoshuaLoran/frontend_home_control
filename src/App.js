@@ -20,6 +20,20 @@ export default class App extends Component {
     }
   }
 
+  modifyCommand = (device, devices) => {
+    let deviceClone;
+    devices.forEach(ele => {
+      if(device.id === ele.id) {
+        deviceClone = ele
+      }
+    })
+    if(deviceClone.commands[0]==="on"){
+      this.sub.send( {commands: ["off"], id: device.id} )
+    } else {
+      this.sub.send( {commands: ["on"], id: device.id} )
+    }
+  }
+
   componentDidMount(){
     const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
     this.sub = cable.subscriptions.create('DevicesChannel', {
@@ -28,17 +42,11 @@ export default class App extends Component {
   }
 
   handleReceiveNewData = (data) => {
-    console.log(data)
     if (data.commands !== this.state.commands) {
       this.setState({
         commands: data.commands
       })
     }
-  }
-
-  actionTest= (e) => {
-    e.preventDefault()
-    this.sub.send( {commands: ["works"], id: 1} )
   }
 
   getToken(){
@@ -81,6 +89,7 @@ export default class App extends Component {
 
   handleLogin = (e, name, pw) => {
     e.preventDefault()
+    if(name && pw){
     fetch(URL + 'login', {
       method: 'POST',
       headers: {
@@ -96,7 +105,7 @@ export default class App extends Component {
     })
   .then(r => r.json())
   .then( data => {
-    console.log(data.user)
+
         if(data.message){
           alert(data.message)
         } else {
@@ -108,9 +117,24 @@ export default class App extends Component {
             user_devices: data.user.devices
 
           })
-          // this.getProfile()
         }
       })
+    }
+  }
+
+  getDevices = (device) => {
+    let config = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }
+
+    fetch(URL + 'devices', config)
+      .then(r => r.json())
+      .then (data => this.modifyCommand(device, data))
   }
 
   logout = () => {
@@ -134,8 +158,9 @@ export default class App extends Component {
                                                                             logged_in={this.state.logged_in}/>}/>
         <Route exact path='/homepage' component={() => <Homepage logged_in={this.state.logged_in}
                                                                  user_name={this.state.user_name}
-                                                                 logout={this.actionTest}
-                                                                 devices={this.state.user_devices}/>}/>
+                                                                 logout={this.logout}
+                                                                 devices={this.state.user_devices}
+                                                                 clickCommand={this.getDevices}/>}/>
 
       </Router>
     );

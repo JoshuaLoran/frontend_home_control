@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Container } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import House from '../images/house3.jpg'
 
 export default class Login extends Component {
   constructor(){
@@ -29,17 +30,39 @@ export default class Login extends Component {
       return <Redirect to='/createaccount' />
     }
     return (
-    <Container textAlign='center'>
-      <h2> Home Control Login</h2>
-      <h4> Log in your account</h4>
-      <h6> or </h6>
-      <h4> Create and account</h4>
-      <form>
-      <input  type="text" placeholder="username" value={this.state.name} name="name" onChange={this.handleChange}/> <br/>
-      <input  className="pwfield" type="password" placeholder="password" name="pw" value={this.state.pw} onChange={this.handleChange} required/> <br/>
-      <input className="btn btn-success btn-lg btn3d" type="submit" value="submit" onClick={(e) => {this.props.handleLogin(e,this.state.name, this.state.pw)}}/> <br/>
-      <button  className="btn btn-success btn-lg btn3d" onClick={this.onClickRedirect}> create account </button>
-      </form>
-    </Container>)
+      <div className='login-form'>
+        {/*
+          Heads up! The styles below are necessary for the correct render of this example.
+          You can do same with CSS, the main idea is that all the elements up to the `Grid`
+          below must have a height of 100%.
+        */}
+        <style>{`
+          body > div,
+          body > div > div,
+          body > div > div > div.login-form {
+            height: 100%;
+          }
+        `}
+        </style>
+        <Image centered size='medium' src={House} />
+        <Grid  textAlign='center' style={{ height: '100%' }}>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Form size='large' textAlign='center'>
+              <Segment stacked>
+                <Header as='h2' color='blue' textAlign='center'>
+                   Please log in to your account
+                </Header><br /><br />
+                <input  type="text" placeholder="username" value={this.state.name} name="name" onChange={this.handleChange}/> <br/><br/>
+                <input  type="password" placeholder="password" name="pw" value={this.state.pw} onChange={this.handleChange} required/> <br/><br/>
+                <Button color='blue'  type="submit" value="submit" onClick={(e) => {this.props.handleLogin(e,this.state.name, this.state.pw)}}>Submit</Button> <br/>
+              </Segment>
+            </Form>
+            <Message>
+              New to us?   <Button size='mini' color='blue' onClick={this.onClickRedirect}> Create account </Button>
+            </Message>
+          </Grid.Column>
+        </Grid>
+      </div>
+    )
   }
 }
