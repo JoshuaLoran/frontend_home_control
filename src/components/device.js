@@ -5,6 +5,18 @@ import Lamp from '../images/lamp.jpg'
 
 export default class Device extends Component {
 
+  buttonReturn = () => {
+    if(this.props.device.commands[0] === "on"){
+      return <Button fluid basic color="green" onClick={() => {this.props.clickCommand(this.props.device)}}>
+              On
+             </Button>
+    } else {
+      return <Button fluid basic color="red" onClick={() => {this.props.clickCommand(this.props.device)}}>
+              Off
+             </Button>
+    }
+  }
+// () => {this.props.clickCommand(this.props.device)}
   render(){
     return(
       <Card>
@@ -12,14 +24,12 @@ export default class Device extends Component {
           <Image floated='right' size='mini' src={Lamp} />
           <Card.Header>{this.props.device.name}</Card.Header>
           <Card.Description>
-            Use the buttons to control your device!
+            Your device ID is {this.props.device.id}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
         <div centered>
-          <Button  fluid onClick={() => {this.props.clickCommand(this.props.device)}}>
-              Toggle
-          </Button>
+          {this.buttonReturn()}
         </div>
       </Card.Content>
       </Card>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Container, Divider } from 'semantic-ui-react'
 import Device from './device'
+import CreateDeviceModal from './newDeviceForm'
 import { Button, Card, Image } from 'semantic-ui-react'
 
 export default class Homepage extends Component {
@@ -34,11 +35,12 @@ export default class Homepage extends Component {
     }
 
     return (
-        <Container textAlign='center' centered>
-          <h2> Welcome, {this.name()}!</h2>
-          <Card.Group centered>{this.nullCheck()}</Card.Group>
-          <button onClick={this.props.logout}>Log Out</button>
-        </Container>
+              <Container textAlign='center' centered>
+                <h2> Welcome, {this.name()}!</h2>
+                <CreateDeviceModal createDevice={this.props.createDevice}/>
+                <Card.Group centered>{this.nullCheck()}</Card.Group>
+                <button onClick={this.props.logout}>Log Out</button>
+              </Container>
     )
   }
 }

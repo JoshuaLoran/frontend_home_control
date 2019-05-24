@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import House from '../images/house3.jpg'
+import ValuePropCarousel from './carousel.js'
 
 export default class Login extends Component {
   constructor(){
@@ -31,11 +32,6 @@ export default class Login extends Component {
     }
     return (
       <div className='login-form'>
-        {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
         <style>{`
           body > div,
           body > div > div,
@@ -45,8 +41,9 @@ export default class Login extends Component {
         `}
         </style>
         <Image centered size='medium' src={House} />
+        <ValuePropCarousel />
         <Grid  textAlign='center' style={{ height: '100%' }}>
-          <Grid.Column style={{ maxWidth: 450 }}>
+          <Grid.Column className='topMargin' style={{ maxWidth: 450 }}>
             <Form size='large' textAlign='center'>
               <Segment stacked>
                 <Header as='h2' color='blue' textAlign='center'>
