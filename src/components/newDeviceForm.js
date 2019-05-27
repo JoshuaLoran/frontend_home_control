@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
-import { Button, Header, Form, Modal } from 'semantic-ui-react'
+import { Button, Form, Modal, Image } from 'semantic-ui-react'
+import Lamp from '../images/lamp.jpg'
+import Robot from '../images/robot.png'
+import Alarm from '../images/intruder.jpg'
+import Temp from '../images/temps.png'
 
 
 export default class CreateDeviceModal extends Component {
@@ -13,7 +17,6 @@ export default class CreateDeviceModal extends Component {
 
   handleChange = e => {
     e.preventDefault()
-    console.log('name: ', e.target.name, 'value: ', e.target.value)
     this.setState({[e.target.name]: e.target.value})
   }
 
@@ -31,10 +34,17 @@ export default class CreateDeviceModal extends Component {
           </Form.Field>
           <Form.Field readOnly>
             <label>Command</label>
-            {/*name='deviceCommand' value={this.state.deviceCommand} onChange={this.handleChange}*/}
             <input readonly type='text' placeholder='Only on/off currently supported' value={this.state.deviceCommand}/>
           </Form.Field>
-          <Button type='submit' onClick={(e) => {this.props.createDevice(e,this.state.deviceName, this.state.deviceCommand)}}>Submit</Button>
+          <Form.Field>
+            <label>Pick an Icon</label>
+            <Image floated='left' size='mini' src={Lamp} />
+            <Image floated='left' size='mini' src={Robot} />
+            <Image floated='left' size='mini' src={Alarm} />
+            <Image floated='left' size='mini' src={Temp} />
+          </Form.Field>
+
+          <Button floated='right' centered type='submit' onClick={(e) => {this.props.createDevice(e,this.state.deviceName, this.state.deviceCommand)}}>Submit</Button>
         </Form>
     </Modal.Content>
   </Modal>

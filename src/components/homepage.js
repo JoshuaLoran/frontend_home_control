@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Container, Divider } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import Device from './device'
 import CreateDeviceModal from './newDeviceForm'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Card, Header, Icon, Divider } from 'semantic-ui-react'
 
 export default class Homepage extends Component {
 
@@ -20,7 +20,7 @@ export default class Homepage extends Component {
     let components;
     if (this.props.devices){
       components = this.props.devices.map((device, idx) => {
-        return <Device clickCommand={this.props.clickCommand} key={idx} device={device} />
+        return <Device deleteDevice={this.props.deleteDevice} clickCommand={this.props.clickCommand} key={idx} device={device} />
       })
       return components
     } else {
@@ -36,10 +36,15 @@ export default class Homepage extends Component {
 
     return (
               <Container textAlign='center' centered>
-                <h2> Welcome, {this.name()}!</h2>
+                <Header as='h1' icon>
+                  <Icon name='settings' />
+                  Welcome, {this.name()}!
+                </Header>
+                <Divider className='bottomMargin' horizontal>This is the Device management page</Divider>
                 <CreateDeviceModal createDevice={this.props.createDevice}/>
+                <Divider horizontal>Control your devices below</Divider>
                 <Card.Group centered>{this.nullCheck()}</Card.Group>
-                <button onClick={this.props.logout}>Log Out</button>
+                <button className='topMargin' onClick={this.props.logout}>Log Out</button>
               </Container>
     )
   }

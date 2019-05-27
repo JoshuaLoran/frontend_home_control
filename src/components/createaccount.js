@@ -50,7 +50,8 @@ export default class Createaccount extends Component {
                 <input className="pwfield" type="password" placeholder="password" name="pw"  onChange={this.handleChange} required/> <br/><br/>
                 <Button color='blue' type="submit" value="create account" onClick={(e) => {this.props.createAccount(e,this.state.name, this.state.pw)}}>Create Account</Button> <br/>
               </Segment>
-            </Form>
+            </Form><br/>
+            <a href='/'><h3>Back to Start</h3></a>
           </Grid.Column>
         </Grid>
       </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import House from '../images/house3.jpg'
-import ValuePropCarousel from './carousel.js'
+import ValuePropCarousel from '../components/carousel.js'
 
 export default class Login extends Component {
   constructor(){
@@ -10,13 +10,18 @@ export default class Login extends Component {
     this.state = {
       name: undefined,
       pw: undefined,
-      createaccount: false
+      createaccount: false,
+      infoSwitch: false
     }
   }
 
   handleChange = e => {
     e.preventDefault()
     this.setState({[e.target.name]: e.target.value})
+  }
+
+  gotoInfo = () => {
+    this.setState({infoSwitch: true})
   }
 
   onClickRedirect = () => {
@@ -30,6 +35,9 @@ export default class Login extends Component {
     if(this.state.createaccount === true){
       return <Redirect to='/createaccount' />
     }
+    if(this.state.infoSwitch === true){
+      return <Redirect to= '/information' />
+    }
     return (
       <div className='login-form'>
         <style>{`
@@ -40,10 +48,13 @@ export default class Login extends Component {
           }
         `}
         </style>
-        <Image centered size='medium' src={House} />
+        <Image onClick={this.gotoInfo} centered size='medium' src={House} />
+          <Header as='h1' textAlign='center'>
+            Or you can click the house for more information
+          </Header>
         <ValuePropCarousel />
         <Grid  textAlign='center' style={{ height: '100%' }}>
-          <Grid.Column className='topMargin' style={{ maxWidth: 450 }}>
+          <Grid.Column style={{ maxWidth: 450 }}>
             <Form size='large' textAlign='center'>
               <Segment stacked>
                 <Header as='h2' color='blue' textAlign='center'>

@@ -18,7 +18,7 @@ class ValuePropCarousel extends React.Component {
       <Container>
         <CarouselProvider
           orientation= 'vertical'
-          naturalSlideWidth={10}
+          naturalSlideWidth={15}
           naturalSlideHeight={1}
           totalSlides={3}
           isPlaying={true}
@@ -29,25 +29,25 @@ class ValuePropCarousel extends React.Component {
           <Slider className='centerCarousel' id="carousel">
             <Header as='h2'>
               <Slide className='carousel-font' id='carousel' index={0}>
-                <Image spaced size='small' src={Robot} />
+                <Image spaced size='tiny' src={Robot} />
                   Make devices for your home
-                <Image spaced size='small' src={Robot} />
+                <Image spaced size='tiny' src={Robot} />
               </Slide>
           </Header>
 
             <Header as='h2'>
               <Slide className='carousel-font' id='carousel' index={1}>
-                <Image spaced size='small' src={Pi} />
+                <Image spaced size='tiny' src={Pi} />
                 Connect your devices to a RaspberryPi
-                <Image spaced size='small' src={Pi} />
+                <Image spaced size='tiny' src={Pi} />
               </Slide>
             </Header>
 
             <Header as='h2'>
               <Slide className='carousel-font' id='carousel' index={2}>
-                <Image spaced size='small' src={Earth} />
+                <Image spaced size='tiny' src={Earth} />
                 Control your homemade devices from anywhere in the world
-                <Image spaced size='small' src={Earth} />
+                <Image spaced size='tiny' src={Earth} />
               </Slide>
             </Header>
 

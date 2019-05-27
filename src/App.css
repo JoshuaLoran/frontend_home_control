@@ -3,7 +3,15 @@
 }
 
 .topMargin{
-  margin-top: 50px
+  margin-top: 50px;
+}
+
+.noMargin{
+  margin: 0;
+}
+
+.quater{
+  width: 25%
 }
 
 .App-logo {

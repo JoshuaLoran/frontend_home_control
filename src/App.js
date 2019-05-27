@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
-import Login from './components/login'
+import Login from './containers/login'
 import Homepage from './components/homepage'
+import Info from './containers/infospread.js'
 import Createaccount from './components/createaccount'
 import './App.css';
 import ActionCable from 'actioncable'
+
+////////////////////////// CHOOSE LOCAL OR DEPLOYED  /////////////////////
 
 //local
 const URL = 'http://localhost:3000/'
 //deployed
 // const URL = 'https://agile-reef-99245.herokuapp.com/'
+
+////////////////////////  TOP APP CLASS  /////////////////////////////
 
 export default class App extends Component {
   constructor(){
@@ -23,25 +28,16 @@ export default class App extends Component {
 
     }
   }
-  modifyCommand = (device, devices) => {
-    let deviceClone;
-    devices.forEach(ele => {
-      if(device.id === ele.id) {
-        deviceClone = ele
-      }
-    })
-    if(deviceClone.commands[0]==="on"){
-      this.sub.send( {commands: ["off"], id: device.id} )
-    } else {
-      this.sub.send( {commands: ["on"], id: device.id} )
-    }
-  }
+
+  /////////////////  WEBSOCKET LOGIC /////////////////////////
+
   componentDidMount(){
     const cable = ActionCable.createConsumer(URL +'cable')
     this.sub = cable.subscriptions.create('DevicesChannel', {
       received: this.handleReceiveNewData
     })
   }
+
   handleReceiveNewData = (data) => {
     if (data.commands !== this.state.commands) {
       this.setState({
@@ -50,13 +46,9 @@ export default class App extends Component {
     }
     (this.getProfile())
   }
-  getToken(){
-    let token = localStorage.getItem('jwt')
-    return token //keep redundancy - was giving error without explicit
-  }
-  saveToken(jwt){
-    return localStorage.setItem('jwt', jwt)
-  }
+
+  ////////////////   LOGIN, CREATE USER, AND PROFILE METHODS /////////////
+
   createAccount = (e, name, pw) => {
     e.preventDefault()
     fetch(URL + '/users', {
@@ -72,18 +64,19 @@ export default class App extends Component {
         }
       })
     })
-  .then(r => r.json())
-      .then(data => {
-        if(data.error){
-          alert(data.error)
-        } else {
-          this.setState({
-            user_id: data.user.id,
-            user_name: data.user.username,
-            logged_in: true})
-        }
-      })
+    .then(r => r.json())
+    .then(data => {
+      if(data.error){
+        alert(data.error)
+      } else {
+        this.setState({
+          user_id: data.user.id,
+          user_name: data.user.username,
+          logged_in: true})
+      }
+    })
   }
+
   handleLogin = (e, name, pw) => {
     e.preventDefault()
     if(name && pw){
@@ -118,6 +111,51 @@ export default class App extends Component {
       })
     }
   }
+
+  getToken(){
+    let token = localStorage.getItem('jwt')
+    return token //keep redundancy - was giving error without explicit
+  }
+  saveToken(jwt){
+    return localStorage.setItem('jwt', jwt)
+  }
+
+  logout = () => {
+    this.setState({
+      user_id: undefined,
+      user_name: undefined,
+      logged_in: false,
+      user_devices: undefined
+    })
+    localStorage.removeItem('jwt')
+  }
+
+  getProfile = () => {
+    fetch(URL + 'profile', {
+      headers: {
+        'Authorization': 'Bearer ' + this.getToken()
+      }
+    })
+      .then(r => r.json())
+      .then(json => this.sortUserDevices(json.user.devices))
+  }
+
+/////////////  DEVICE LOGIC, CREATE DESTROY  /////////////////
+
+  modifyCommand = (device, devices) => {
+    let deviceClone;
+    devices.forEach(ele => {
+      if(device.id === ele.id) {
+        deviceClone = ele
+      }
+    })
+    if(deviceClone.commands[0]==="on"){
+      this.sub.send( {commands: ["off"], id: device.id} )
+    } else {
+      this.sub.send( {commands: ["on"], id: device.id} )
+    }
+  }
+
   getDevices = (device) => {
     let config = {
       method: 'GET',
@@ -132,15 +170,7 @@ export default class App extends Component {
       .then(r => r.json())
       .then (data => this.modifyCommand(device, data))
   }
-  logout = () => {
-    this.setState({
-      user_id: undefined,
-      user_name: undefined,
-      logged_in: false,
-      user_devices: undefined
-    })
-    localStorage.removeItem('jwt')
-  }
+
   createDevice = (e, deviceName, deviceCommand) => {
     e.preventDefault()
     let deviceConfig = {
@@ -161,8 +191,9 @@ export default class App extends Component {
       .then(r => r.json())
       .then(json => this.createUsersDevice(json.device))
   }
+
   createUsersDevice = (device) => {
-    this.setDevicesState(device)
+    console.log(device)
     let usersDeviceConfig = {
       method: 'POST',
       headers: {
@@ -178,7 +209,9 @@ export default class App extends Component {
       })
     }
     fetch(URL + 'userdevice', usersDeviceConfig)
+      .then(this.setDevicesState(device))
   }
+
   setDevicesState = (device) => {
     if(!this.state.user_devices){
       this.setState({
@@ -191,22 +224,32 @@ export default class App extends Component {
     }
   }
 
-  getProfile = () => {
-    fetch(URL + 'profile', {
-      headers: {
-        'Authorization': 'Bearer ' + this.getToken()
-      }
+  sortUserDevices = (devices) => {
+    var sortedDevices = devices.sort(function(a, b){return a.id - b.id})
+    this.setState({
+      user_devices: sortedDevices
     })
-      .then(r => r.json())
-      .then(json => this.setState({
-        user_devices: json.user.devices
-      }))
   }
 
-
+  deleteDevice = (device) => {
+    const config = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.getToken()}`
+      },
+      body: JSON.stringify({
+        device: {
+          id: device.id
+        }
+      })
+    }
+    fetch(URL + 'devices/' + device.id, config)
+      .then(this.getProfile)
+  }
 
   render(){
-    /*this.getDevices*/
     return (
 
       <Router>
@@ -219,8 +262,11 @@ export default class App extends Component {
                                                                  logout={this.logout}
                                                                  devices={this.state.user_devices}
                                                                  clickCommand={this.getDevices}
-                                                                 createDevice ={this.createDevice}/>}/>
-      </Router>
+                                                                 createDevice ={this.createDevice}
+                                                                 deleteDevice={this.deleteDevice}/>}/>
+        <Route exact path='/information' component={() => <Info />} />
+
+    </Router>
     );
   }
 }
