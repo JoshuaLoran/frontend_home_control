@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Card, Image, Confirm } from 'semantic-ui-react'
 import Lamp from '../images/lamp.jpg'
+import Robot from '../images/robot.png'
+import Alarm from '../images/intruder.jpg'
+import Temp from '../images/temps.png'
 
 
 export default class Device extends Component {
@@ -23,10 +26,21 @@ export default class Device extends Component {
   }
 
   render(){
+    let icon;
+    if(this.props.device.icon === '1'){
+      icon = Lamp
+    } else if (this.props.device.icon === '2'){
+      icon = Robot
+    }
+    else if (this.props.device.icon === '3'){
+      icon = Alarm
+    } else {
+      icon = Temp
+    }
     return(
       <Card>
         <Card.Content>
-          <Image floated='right' size='mini' src={Lamp} />
+          <Image floated='right' size='mini' src={icon} />
           <Card.Header>{this.props.device.name}</Card.Header>
           <Card.Description>
             Your device ID is {this.props.device.id}

@@ -11,13 +11,18 @@ export default class CreateDeviceModal extends Component {
     super()
     this.state = {
       deviceName: undefined,
-      deviceCommand: ''
+      deviceCommand: '',
+      deviceType: 1
     }
   }
 
   handleChange = e => {
     e.preventDefault()
     this.setState({[e.target.name]: e.target.value})
+  }
+
+  imageClick = (e) => {
+    this.setState({deviceType: e.target.id})
   }
 
 
@@ -36,15 +41,52 @@ export default class CreateDeviceModal extends Component {
             <label>Command</label>
             <input readonly type='text' placeholder='Only on/off currently supported' value={this.state.deviceCommand}/>
           </Form.Field>
+
+
           <Form.Field>
             <label>Pick an Icon</label>
-            <Image floated='left' size='mini' src={Lamp} />
-            <Image floated='left' size='mini' src={Robot} />
-            <Image floated='left' size='mini' src={Alarm} />
-            <Image floated='left' size='mini' src={Temp} />
+            <input
+              id='1'
+              type='radio'
+              value='1'
+              checked={this.state.deviceType === '1'}
+              onChange={this.imageClick}
+              />
+            <label htmlFor='1'>
+              <Image className='avatar-img' id='1' floated='left' size='mini' src={Lamp} />
+            </label>
+            <input
+              id='2'
+              type='radio'
+              value='2'
+              checked={this.state.deviceType === '2'}
+              onChange={this.imageClick}
+              />
+            <label htmlFor='2'>
+              <Image className='avatar-img' id='2' floated='left' size='mini' src={Robot} />
+            </label>
+            <input
+              id='3'
+              type='radio'
+              value='3'
+              checked={this.state.deviceType === '3'}
+              onChange={this.imageClick}
+              />
+            <label htmlFor='3'>
+              <Image className='avatar-img' id='3' floated='left' size='mini' src={Alarm} />
+            </label>
+            <input
+              id='4'
+              type='radio'
+              value='4'
+              checked={this.state.deviceType === '4'}
+              onChange={this.imageClick}
+              />
+            <label htmlFor='4'>
+              <Image className='avatar-img' id='4' floated='left' size='mini' src={Temp} />
+            </label>
           </Form.Field>
-
-          <Button floated='right' centered type='submit' onClick={(e) => {this.props.createDevice(e,this.state.deviceName, this.state.deviceCommand)}}>Submit</Button>
+          <Button floated='right' centered type='submit' onClick={(e) => {this.props.createDevice(e,this.state.deviceName, this.state.deviceCommand, this.state.deviceType)}}>Submit</Button>
         </Form>
     </Modal.Content>
   </Modal>

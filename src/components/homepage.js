@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 import Device from './device'
 import CreateDeviceModal from './newDeviceForm'
-import { Card, Header, Icon, Divider } from 'semantic-ui-react'
+import { Card, Header, Icon, Divider, Button } from 'semantic-ui-react'
 
 export default class Homepage extends Component {
 
@@ -41,6 +41,7 @@ export default class Homepage extends Component {
                   Welcome, {this.name()}!
                 </Header>
                 <Divider className='bottomMargin' horizontal>This is the Device management page</Divider>
+                <Button href='/information' >Info Page</Button>
                 <CreateDeviceModal createDevice={this.props.createDevice}/>
                 <Divider horizontal>Control your devices below</Divider>
                 <Card.Group centered>{this.nullCheck()}</Card.Group>

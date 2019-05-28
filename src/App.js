@@ -69,6 +69,7 @@ export default class App extends Component {
       if(data.error){
         alert(data.error)
       } else {
+        this.saveToken(data.jwt)
         this.setState({
           user_id: data.user.id,
           user_name: data.user.username,
@@ -171,7 +172,7 @@ export default class App extends Component {
       .then (data => this.modifyCommand(device, data))
   }
 
-  createDevice = (e, deviceName, deviceCommand) => {
+  createDevice = (e, deviceName, deviceCommand, deviceType) => {
     e.preventDefault()
     let deviceConfig = {
       method: 'POST',
@@ -183,7 +184,8 @@ export default class App extends Component {
       body: JSON.stringify({
         device:{
           name: deviceName,
-          command: ["off"]
+          commands: ["off"],
+          icon: deviceType.toString()
         }
       })
     }
@@ -193,7 +195,6 @@ export default class App extends Component {
   }
 
   createUsersDevice = (device) => {
-    console.log(device)
     let usersDeviceConfig = {
       method: 'POST',
       headers: {
