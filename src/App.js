@@ -10,9 +10,9 @@ import ActionCable from 'actioncable'
 ////////////////////////// CHOOSE LOCAL OR DEPLOYED  /////////////////////
 
 //local
-const URL = 'http://localhost:3000/'
+// const URL = 'http://localhost:3000/'
 //deployed
-// const URL = 'https://agile-reef-99245.herokuapp.com/'
+const URL = 'https://agile-reef-99245.herokuapp.com/'
 
 ////////////////////////  TOP APP CLASS  /////////////////////////////
 
@@ -144,6 +144,7 @@ export default class App extends Component {
 /////////////  DEVICE LOGIC, CREATE DESTROY  /////////////////
 
   modifyCommand = (device, devices) => {
+    console.log(device, devices)
     let deviceClone;
     devices.forEach(ele => {
       if(device.id === ele.id) {
