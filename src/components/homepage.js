@@ -7,6 +7,19 @@ import { Card, Header, Icon, Divider, Button } from 'semantic-ui-react'
 
 export default class Homepage extends Component {
 
+  constructor(){
+    super()
+    this.state = {
+      gotoInfo: false
+    }
+  }
+
+  gotoInfoPage = () => {
+    this.setState({
+      gotoInfo: true
+    })
+  }
+
   name(){
     if (this.props.user_name){
       let name = this.props.user_name.charAt(0).toUpperCase() + this.props.user_name.slice(1);
@@ -29,22 +42,25 @@ export default class Homepage extends Component {
   }
 
   render(){
+    if(this.state.gotoInfo){
+      return <Redirect to='/information' />
+    }
 
     if(this.props.logged_in === false){
       return <Redirect to='/'/>
     }
 
     return (
-              <Container textAlign='center' centered>
+              <Container className='topMargin' textAlign='center' centered>
                 <Header as='h1' icon>
                   <Icon name='settings' />
                   Welcome, {this.name()}!
                 </Header>
                 <Divider className='bottomMargin' horizontal>This is the Device management page</Divider>
-                <Button href='/information' >Info Page</Button>
+                <Button onClick={this.gotoInfoPage} >Info Page</Button>
                 <CreateDeviceModal createDevice={this.props.createDevice}/>
-                <Divider horizontal>Control your devices below</Divider>
-                <Card.Group centered>{this.nullCheck()}</Card.Group>
+                <Divider className='bottomMargin' horizontal>Control your devices below</Divider>
+                <Card.Group className='topMargin' centered>{this.nullCheck()}</Card.Group>
                 <button className='topMargin' onClick={this.props.logout}>Log Out</button>
               </Container>
     )

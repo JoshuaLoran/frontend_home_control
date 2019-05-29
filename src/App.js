@@ -266,7 +266,7 @@ export default class App extends Component {
                                                                  clickCommand={this.getDevices}
                                                                  createDevice ={this.createDevice}
                                                                  deleteDevice={this.deleteDevice}/>}/>
-        <Route exact path='/information' component={() => <Info />} />
+                                                               <Route exact path='/information' component={() => <Info loggedIn={this.state.logged_in}/>} />
 
     </Router>
     );
