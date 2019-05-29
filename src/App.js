@@ -9,9 +9,7 @@ import ActionCable from 'actioncable'
 
 ////////////////////////// CHOOSE LOCAL OR DEPLOYED  /////////////////////
 
-//local
-// const URL = 'http://localhost:3000/'
-//deployed
+
 const URL = 'https://agile-reef-99245.herokuapp.com/'
 
 ////////////////////////  TOP APP CLASS  /////////////////////////////
