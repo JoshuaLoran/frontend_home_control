@@ -9,9 +9,7 @@ import ActionCable from 'actioncable'
 
 ////////////////////////// CHOOSE LOCAL OR DEPLOYED  /////////////////////
 
-//local
-// const URL = 'http://localhost:3000/'
-//deployed
+
 const URL = 'https://agile-reef-99245.herokuapp.com/'
 
 ////////////////////////  TOP APP CLASS  /////////////////////////////
@@ -266,7 +264,7 @@ export default class App extends Component {
                                                                  clickCommand={this.getDevices}
                                                                  createDevice ={this.createDevice}
                                                                  deleteDevice={this.deleteDevice}/>}/>
-        <Route exact path='/information' component={() => <Info />} />
+                                                               <Route exact path='/information' component={() => <Info loggedIn={this.state.logged_in}/>} />
 
     </Router>
     );

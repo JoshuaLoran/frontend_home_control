@@ -14,6 +14,17 @@ export default class Device extends Component {
   show = () => {this.setState({ open: true })}
 
   buttonReturn = () => {
+    if(this.props.device.icon === '3'){
+      if(this.props.device.commands[0] === "on"){
+        return <Button fluid color='green'>
+                Clear
+               </Button>
+      } else {
+        return <Button fluid color="red" onClick={() => {this.props.clickCommand(this.props.device)}}>
+                Intruder!
+               </Button>
+      }
+    } else {
     if(this.props.device.commands[0] === "on"){
       return <Button fluid basic color="green" onClick={() => {this.props.clickCommand(this.props.device)}}>
               On
@@ -23,6 +34,7 @@ export default class Device extends Component {
               Off
              </Button>
     }
+  }
   }
 
   render(){

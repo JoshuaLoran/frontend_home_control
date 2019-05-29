@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Steps from '../components/steps.js'
 import Blurb from '../components/infoBlurb.js'
+import { Sticky } from 'semantic-ui-react'
 
 export default class Info extends Component {
 
@@ -19,8 +20,10 @@ export default class Info extends Component {
 
   render(){
     return (<div>
+      <Sticky>
       <Steps page={this.state.page} handleClick={this.handleClick}/>
-      <Blurb page={this.state.page}/>
+      </Sticky>
+      <Blurb loggedIn={this.props.loggedIn} page={this.state.page}/>
       </div>
     )
   }
