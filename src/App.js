@@ -4,6 +4,7 @@ import Login from './containers/login'
 import Homepage from './components/homepage'
 import Info from './containers/infospread.js'
 import Createaccount from './components/createaccount'
+import Construction from './components/construction'
 import './App.css';
 import ActionCable from 'actioncable'
 
@@ -264,7 +265,8 @@ export default class App extends Component {
                                                                  clickCommand={this.getDevices}
                                                                  createDevice ={this.createDevice}
                                                                  deleteDevice={this.deleteDevice}/>}/>
-                                                               <Route exact path='/information' component={() => <Info loggedIn={this.state.logged_in}/>} />
+        <Route exact path='/information' component={() => <Info loggedIn={this.state.logged_in}/>} />
+        <Route exact path='/construction' component={() => <Construction />} />
 
     </Router>
     );

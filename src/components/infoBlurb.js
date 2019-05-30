@@ -9,14 +9,24 @@ import Work from '../images/working.jpg'
 import Mkdir from '../images/makeDir.png'
 import Cdinto from '../images/cdInto.png'
 import Cloneit from '../images/cloneIt.png'
+import WithNull from '../images/withnull.png'
+import WithId from '../images/idadded.png'
+import Noderun from '../images/noderun.png'
 
 export default class Blurb extends Component {
   constructor(){
     super()
     this.state={
       gotoCreate: false,
-      gotoHomepage: false
+      gotoHomepage: false,
+      gotoConstruction: false
     }
+  }
+
+  gotoConstruction = () => {
+    this.setState({
+      gotoConstruction: true
+    })
   }
 
   gotoCreate = () => {
@@ -32,6 +42,9 @@ export default class Blurb extends Component {
   }
 
   pageDisplay(page){
+    if(this.state.gotoConstruction){
+      return <Redirect to='/construction' />
+    }
     if(this.state.gotoHomepage){
       return <Redirect to='/homepage' />
     }
@@ -131,8 +144,34 @@ export default class Blurb extends Component {
     <p>
       You've made it! You've created an account, logged a device you'll make into Home Control, taken note of your device ID,
       and you've setup your Raspberry Pi with the neccessary software.  You have your index.js open on your Raspberry Pi and are ready to start coding
-      the logic that will make you device work from anywhere in the world. 
+      the logic that will make you device work from anywhere in the world.
     </p>
+    <p>
+      We've made the setup for your first few devices very straightforward. With your index.js open, find the lines 10, 11, and 12.
+      This is where you're going to make your modification and enter your device ID next to the device type. If you are adding a light, for example,
+      you enter the ID for the onOffDeviceId variable. If your Home Control device ID number is 1, the code would change from this:<br/><br/>
+    <Image src={WithNull}/><br/><br/>
+    into this: <br/><br/>
+    <Image src={WithId}/><br/><br/>
+    </p>
+    <p>
+      That's it!  Now you can open your Pi's command line, navigate to the proper directory (where you've placed index.js), type in
+      the follwing: <br/><br/><br/>
+    <Image size='large' centered src={Noderun}/><br/><br/>
+    </p>
+    <p>
+      Now your Pi is listening to Home Control and you can control your device! You can now follow these instructions for your
+      first device of each type, as the methods are already setup for you. But you want more devices...You want ALL the devices...You want your
+      house to be a giant robot! I get it, me too. So lets do it. You can add an unlimited amount of custom devices to your Home Control profile.  From here
+      on out, you'll need to dive a little deeper into the programming side in NodeJS. In the process, you'll become more familiar with
+      Javascript, object oriented programming, and web interfacing.
+    </p>
+    <p>
+      We've setup an intermediate walkthrough for next few devices that will help guide you through a few projects while
+      keeping enough ambiguity that you can customize the devices you make throughout the walkthrough.  So, when you've setup your
+      first few devices and your ready for more advanced interactions, click the button below.
+    </p><br/>
+  <Button onClick={this.gotoConstruction} color='blue' size='huge'>Intermediate Instructions</Button><br/><br/>
   </Container>
     }
   }

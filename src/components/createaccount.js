@@ -51,7 +51,7 @@ export default class Createaccount extends Component {
                 <Button color='blue' type="submit" value="create account" onClick={(e) => {this.props.createAccount(e,this.state.name, this.state.pw)}}>Create Account</Button> <br/>
               </Segment>
             </Form><br/>
-            <a href='/'><h3>Back to Start</h3></a>
+          <a href='/'><h3>Back to Login</h3></a>
           </Grid.Column>
         </Grid>
       </div>
